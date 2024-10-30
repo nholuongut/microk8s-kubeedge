@@ -1,0 +1,24 @@
+apiVersion: devices.kubeedge.io/v1alpha2
+kind: Device
+metadata:
+  name: temperature-device
+  labels:
+    description: ke-test-temperature-device-simulator
+    manufacturer: ke-test-manufacturer
+spec:
+  deviceModelRef:
+    name: temperature-device-model
+  nodeSelector:
+    nodeSelectorTerms:
+      - matchExpressions:
+          - key: ''
+            operator: In
+            values:
+              - microk8s-ke-edge-node
+status:
+  twins:
+    - propertyName: temperature-value
+      desired:
+        metadata:
+          type: string
+        value: 'no temperature read'

@@ -1,0 +1,23 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: temperature-mapper-deployment
+  labels:
+    app: temperature
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: temperature-mapper-deployment
+  template:
+    metadata:
+      labels:
+        app: temperature-mapper-deployment
+    spec:
+      hostNetwork: true
+      nodeSelector:
+        name: microk8s-ke-edge-node
+      containers:
+      - name: temperature-mapper
+        image: didierdurand/kube-edge-temperature-mapper
+        imagePullPolicy: IfNotPresent

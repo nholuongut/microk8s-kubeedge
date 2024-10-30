@@ -1,0 +1,38 @@
+name: Docker Image for KubeEdge
+
+on:  
+
+  #push:
+  
+  schedule:
+  - cron:  '0 1 * * WED' 
+  
+  workflow_dispatch:
+    inputs:
+      workflowAction:
+        description: 'Action'
+        default: 'Build Docker image for kubeedge temperature-mapper'
+        required: true
+ 
+jobs:
+  microk8s-kube-edge:
+  
+    runs-on: ubuntu-20.04
+
+    steps:
+      
+    - name: Check environment
+      run: |-
+        lsb_release -a
+        
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: KubeEdge - build docker image for temperature mapper
+      run: |-
+        cd ke-edge
+        echo ${{ secrets.DOCKER_PASSWORD }} | docker login --username ${{ secrets.DOCKER_USERID }} --password-stdin
+        docker build --file Dockerfile --tag didierdurand/kube-edge-temperature-mapper .
+        #docker push didierdurand/kube-edge-temperature-mapper
+                         
+   
